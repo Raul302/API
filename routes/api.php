@@ -23,18 +23,22 @@ Route::middleware('auth:api')->get('/logear', function (Request $request) {
     return $request->user();
 
 });
+Route::post('iniciarsesion', 'UserController@iniciarsesion');
+Route::post('registrarse', 'UserController@registrarse');
+Route::get('cerrarsesion', 'UserController@cerrarsesion');
+Route::get('Allusers', 'UserController@Allusers');
 
-Route::post('/generartoken',function(){
-    $token = Str::random(60);
+// Route::post('/generartoken',function(){
+//     $token = Str::random(60);
 
-    $User = App\User::find(1);
+//     $User = App\User::find(1);
 
-    $User['api_token'] =hash('sha256', $token);
+//     $User['api_token'] =hash('sha256', $token);
 
-    $User->save();
+//     $User->save();
     
-    return $token;
-});
+//     return $token;
+// });
 // lRerWCdRa6ZpRkTyoPOCHy7eupqjF8TAQ9oS5avRx2gmQxbRI6hpTY0vYwz0
 
 // Use illuminate SUPOORT STR;
