@@ -5,6 +5,17 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Hash;
 
 
+
+Route::post('iniciarsesion', 'UserController@iniciarsesion');
+Route::post('registrarse', 'UserController@registrarse');
+
+Route::group(['middleware' => ['auth:api']], function() {
+    Route::get('cerrarsesion', 'UserController@cerrarsesion');
+});
+Route::group(['middleware' => ['user','auth:api']], function() {
+    Route::get('Allusers', 'UserController@Allusers');
+});
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,18 +27,14 @@ use Illuminate\Http\Request;
 |
 */
 
-// // Route::middleware('auth:api')->get('/user', function (Request $request) {
-// // });
+//  Route::middleware('auth:api')->get('/user', function (Request $request) {
+//      return $request->user();
+//  });
 
-Route::middleware('auth:api')->get('/logear', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/logear', function (Request $request) {
+//     return $request->user();
 
-});
-Route::post('iniciarsesion', 'UserController@iniciarsesion');
-Route::post('registrarse', 'UserController@registrarse');
-Route::get('cerrarsesion', 'UserController@cerrarsesion');
-Route::get('Allusers', 'UserController@Allusers');
-
+// });
 // Route::post('/generartoken',function(){
 //     $token = Str::random(60);
 

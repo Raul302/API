@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use App\User;
 
 
@@ -18,7 +19,7 @@ class UserController extends Controller
         $usuario= new User([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => hash('sha256', $request->password)
+            'password' => bcrypt($request->password)
         ]);
 
         $usuario->save();
@@ -27,29 +28,32 @@ class UserController extends Controller
     
     public function iniciarsesion(Request $request)
     {
-
+        $token = Str::random(60);
         $credentials = request(['email', 'password']);
-        if(!Auth::once($credentials))
-        {
-         return response()->json(['message' =>'Usuario y/o password invalido'],404);
-
-        }
                 // Auth::once
-      
-    //    $usuario=User::where('email',$request->email)->first();
+        if (!Auth::once($credentials))
+        {
+            return response()->json([
+                'message' => 'Usuario y/o contraseñas invalidas'], 401);
+        }
+        $request->user()->forceFill([
+            'api_token' => hash('sha256', $token),
+        ])->save();
 
-    //     if(!$usuario){
-    //         return response()->json(['message'=>'Usuario inexistente'],404);
-    //     }
-    //     if(Hash::check($request->password,$usuario->password))
-    //     {          
-    //          $credentials = request(['email', 'password']);
-    //         $auth=Auth::once($credentials);
-    //         return response()->json(['message' =>$auth],201);
-           
-    //     }
-    //    return $usuario;
-
-        
+        return response()->json(['token' => $token],200);
+    }
+    public function cerrarsesion(Request $request)
+    {
+        $id = $request->user()->id;
+        $usuario= User::find($id);
+        $usuario['api_token']='';
+        $usuario->save();
+          return response()->json(['message' => 
+            'Sesion cerrada exitosamente']);
+    }
+    public function Allusers()
+    {
+        $user= User::all();
+        return $user;
     }
 }
