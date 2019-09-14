@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 
 
@@ -13,7 +14,7 @@ class UserController extends Controller
     {
         // Valideishon(Opcional)
      
-
+        
         $usuario= new User([
             'name' => $request->name,
             'email' => $request->email,
@@ -22,5 +23,22 @@ class UserController extends Controller
 
         $usuario->save();
         return response()->json(['message' =>'Usuario creado con exito'],201);
+    }
+    
+    public function iniciarsesion(Request $request)
+    {
+        // Auth::once
+       $request->validate([
+           'email'=>'required',
+           'password'=>'required'
+       ]);
+       $usuario=User::where('email',$request->email)->first();
+
+        if(!$usuario){
+            return response()->json(['message'=>'Usuario inexistente'],404);
+        }
+    //    return $usuario;
+
+        
     }
 }
