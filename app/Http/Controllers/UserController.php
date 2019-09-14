@@ -27,16 +27,27 @@ class UserController extends Controller
     
     public function iniciarsesion(Request $request)
     {
-        // Auth::once
-       $request->validate([
-           'email'=>'required',
-           'password'=>'required'
-       ]);
-       $usuario=User::where('email',$request->email)->first();
 
-        if(!$usuario){
-            return response()->json(['message'=>'Usuario inexistente'],404);
+        $credentials = request(['email', 'password']);
+        if(!Auth::once($credentials))
+        {
+         return response()->json(['message' =>'Usuario y/o password invalido'],404);
+
         }
+                // Auth::once
+      
+    //    $usuario=User::where('email',$request->email)->first();
+
+    //     if(!$usuario){
+    //         return response()->json(['message'=>'Usuario inexistente'],404);
+    //     }
+    //     if(Hash::check($request->password,$usuario->password))
+    //     {          
+    //          $credentials = request(['email', 'password']);
+    //         $auth=Auth::once($credentials);
+    //         return response()->json(['message' =>$auth],201);
+           
+    //     }
     //    return $usuario;
 
         
