@@ -5,16 +5,20 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Hash;
 
 
+            // POST
+Route::post('iniciar', 'UserController@iniciarsesion');
+Route::post('registrar', 'UserController@registrarse');
 
-Route::post('iniciarsesion', 'UserController@iniciarsesion');
-Route::post('registrarse', 'UserController@registrarse');
 
+            // GET
 Route::group(['middleware' => ['auth:api']], function() {
-    Route::get('cerrarsesion', 'UserController@cerrarsesion');
+    Route::get('cerrar', 'UserController@cerrarsesion');
 });
 Route::group(['middleware' => ['user','auth:api']], function() {
-    Route::get('Allusers', 'UserController@Allusers');
+    Route::get('all', 'UserController@Allusers');
 });
+
+// routes test succesful
 
 /*
 |--------------------------------------------------------------------------

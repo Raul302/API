@@ -13,8 +13,6 @@ class UserController extends Controller
 {
     public function registrarse(Request $request)
     {
-        // Valideishon(Opcional)
-     
         
         $usuario= new User([
             'name' => $request->name,
@@ -24,6 +22,8 @@ class UserController extends Controller
 
         $usuario->save();
         return response()->json(['message' =>'Usuario creado con exito'],201);
+                    // test succesful
+
     }
     
     public function iniciarsesion(Request $request)
@@ -41,6 +41,8 @@ class UserController extends Controller
         ])->save();
 
         return response()->json(['token' => $token],200);
+                    // test succesful
+
     }
     public function cerrarsesion(Request $request)
     {
@@ -50,10 +52,20 @@ class UserController extends Controller
         $usuario->save();
           return response()->json(['message' => 
             'Sesion cerrada exitosamente']);
+
+            // With passport
+            // $user = Auth::user()->token();
+            // $user->revoke();
+            // return 'logged out'; //modify as per your need
+            // test succesful
+
     }
     public function Allusers()
     {
-        $user= User::all();
-        return $user;
+        // return allusers
+        $users= User::all();
+        return $users;
+                    // test succesful
+
     }
 }
