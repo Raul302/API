@@ -13,13 +13,12 @@ class UserController extends Controller
 {
     public function registrarse(Request $request)
     {
-        
+        // $usuario = new App\User();
         $usuario= new User([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
-
         $usuario->save();
         return response()->json(['message' =>'Usuario creado con exito'],201);
                     // test succesful
@@ -28,27 +27,33 @@ class UserController extends Controller
     
     public function iniciarsesion(Request $request)
     {
-        $token = Str::random(60);
         $credentials = request(['email', 'password']);
                 // Auth::once
         if (!Auth::once($credentials))
         {
             return response()->json([
                 'message' => 'Usuario y/o contraseñas invalidas'], 401);
+                // abort(401);
         }
+        $token = Str::random(60);
         $request->user()->forceFill([
             'api_token' => hash('sha256', $token),
         ])->save();
 
-        return response()->json(['token' => $token],200);
+        return response()->json(['token' => $token],201);
                     // test succesful
 
     }
     public function cerrarsesion(Request $request)
     {
+        // $request->user()->forceFill([
+        //     'api_token' => null,
+        // ])->save();
+        // \abort(204);   -> tomar funcion especifica
+        
         $id = $request->user()->id;
         $usuario= User::find($id);
-        $usuario['api_token']='';
+        $usuario['api_token']=null;
         $usuario->save();
           return response()->json(['message' => 
             'Sesion cerrada exitosamente']);
@@ -62,10 +67,10 @@ class UserController extends Controller
     }
     public function Allusers()
     {
-        // return allusers
         $users= User::all();
         return $users;
-                    // test succesful
+        // return resonse()->json(["usuarios" =>$users],200);
+      // test succesful
 
     }
 }

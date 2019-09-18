@@ -17,12 +17,21 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        // if($request->user()->isAdmin())
+        // {
+        //     return $next($request);
+        // }
+        // else
+        // {
+        //     \abort(401);
+        // }
+
         $id = $request->user()->id;
         // abort_if(! Auth::user()->isAdmin(), 403);
         if ($id != 1) {
-            abort(401,'Sin permisos');
+            \abort(401,'Sin permisos');
             // return response("User can't perform this action.", 401);
-                        }
+           }
         return $next($request);
         // test succesful
 

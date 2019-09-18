@@ -9,12 +9,11 @@ use Illuminate\Http\Request;
 Route::post('iniciar', 'UserController@iniciarsesion');
 Route::post('registrar', 'UserController@registrarse');
 
-
             // GET
 Route::group(['middleware' => ['auth:api']], function() {
     Route::get('cerrar', 'UserController@cerrarsesion');
 });
-Route::group(['middleware' => ['user','auth:api']], function() {
+Route::group(['middleware' => ['auth:api','user']], function() {
     Route::get('all', 'UserController@Allusers');
 });
 
