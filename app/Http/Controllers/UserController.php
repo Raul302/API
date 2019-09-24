@@ -73,4 +73,12 @@ class UserController extends Controller
       // test succesful
 
     }
+    public function ejemplo()
+    {
+        $client = new \GuzzleHttp\Client(['base_uri'=>'http://127.0.0.1:3333/']);
+
+        $response = $client->request('POST','ejemplo');
+
+        return $response->getBody();
+    }
 }

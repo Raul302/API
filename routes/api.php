@@ -13,6 +13,9 @@ Route::post('registrar', 'UserController@registrarse');
 Route::group(['middleware' => ['auth:api']], function() {
     Route::get('cerrar', 'UserController@cerrarsesion');
 });
+
+Route::get('ejemplo', 'UserController@ejemplo');
+
 Route::group(['middleware' => ['auth:api','user']], function() {
     Route::get('all', 'UserController@Allusers');
 });
