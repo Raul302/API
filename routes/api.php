@@ -4,6 +4,27 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Str;
 // use Illuminate\Support\Facades\Hash;
 
+// RUTAS APICONTROLLER
+// Route.post('registrar', 'UserController.registrar')
+// Route.post('iniciar', 'UserController.iniciar')
+// Route.post('ejemplo', 'UserController.ejemplo')
+// Route.get('cerrar', 'UserController.cerrar') .middleware(['auth:api'])
+// Route.get('all','UserController.all').middleware(['auth:api','user'])
+
+Route::group(['prefix' => 'TOAPI'], function() {
+    Route::post('iniciar', 'APICONTROLLER@iniciarsesion');
+    Route::post('registrar', 'APICONTROLLER@registrarse');
+    Route::group(['middleware' => ['auth:api']], function() {
+    Route::get('close', 'APICONTROLLER@cerrarsesion');
+    });
+    Route::group(['middleware' => ['auth:api','user']], function() {
+        Route::get('all', 'APICONTROLLER@Allusers');
+    });
+});
+
+
+
+//FIN
 
             // POST
 Route::post('iniciar', 'UserController@iniciarsesion');

@@ -23,6 +23,10 @@ class CreateUsersTable extends Migration
             ->unique()
             ->nullable()
             ->default(null);
+            $table->string('token_api', 255)
+            ->unique()
+            ->nullable()
+            ->default(null);
             $table->rememberToken();
             $table->timestamps();
         });
