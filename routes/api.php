@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 // Route.get('cerrar', 'UserController.cerrar') .middleware(['auth:api'])
 // Route.get('all','UserController.all').middleware(['auth:api','user'])
 
+// Openweather
+Route::post('Ciudad', 'OpenweatherController@Ciudad');
+Route::post('Coordenadas', 'OpenweatherController@Coordenadas');
+
+
+
 Route::group(['prefix' => 'TOAPI'], function() {
     Route::post('iniciar', 'APICONTROLLER@iniciarsesion');
     Route::post('registrar', 'APICONTROLLER@registrarse');
