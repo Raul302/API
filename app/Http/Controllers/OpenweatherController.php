@@ -11,7 +11,6 @@ class OpenweatherController extends Controller
     {
         $cityname = $request->city;
         $client = new \GuzzleHttp\Client(['base_uri' => 'api.openweathermap.org/data/2.5/']);
-        
         $response = $client->request('GET', 'weather?q='.$cityname.'&appid=e9ec8a20345b35806fe60ef003d20cf1',
          [
             // e9ec8a20345b35806fe60ef003d20cf1
@@ -23,7 +22,6 @@ class OpenweatherController extends Controller
         $latitud = $request->latitud;
         $longitud = $request->longitud;
         $client = new \GuzzleHttp\Client(['base_uri' => 'api.openweathermap.org/data/2.5/']);
-        
         $response = $client->request('GET', 'weather?lat='.$latitud.'&lon='.$longitud.'&appid=e9ec8a20345b35806fe60ef003d20cf1',
          [
             // e9ec8a20345b35806fe60ef003d20cf1

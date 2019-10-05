@@ -12,10 +12,35 @@ use Illuminate\Http\Request;
 // Route.get('all','UserController.all').middleware(['auth:api','user'])
 
 // Openweather
-Route::post('Ciudad', 'OpenweatherController@Ciudad');
+// Route::get('Ciudad', 'OpenweatherController@Ciudad');
+Route::group(['prefix' => 'Github'], function() {
+    Route::post('Start', 'GithubController@iniciarsesion');
+    Route::post('Registrar', 'GithubController@registrarse');
+    Route::group(['middleware' => ['auth:api']], function() {
+    Route::get('close', 'GithubController@cerrarsesion');
+    Route::post('BuscarUsuario','GithubController@Buscar');
+    Route::post('BuscarRepos','GithubController@Repos');
+    Route::post('CreateRepos','GithubController@CreateRepos');
+    });
+});
+
 Route::post('Coordenadas', 'OpenweatherController@Coordenadas');
+Route::group(['middleware' => ['auth:api']], function() {
+    Route::get('Ciudad', 'OpenweatherController@Ciudad');
+    Route::post('Coordenadas', 'OpenweatherController@Coordenadas');
+});
 
 
+Route::group(['prefix' => 'MARENTES'], function() {
+    Route::post('iniciar', 'ConexionController@iniciarsesion');
+    Route::post('registrar', 'ConexionController@registrarse');
+    Route::group(['middleware' => ['auth:api']], function() {
+    Route::get('close', 'ConexionController@cerrarsesion');
+    });
+    Route::group(['middleware' => ['auth:api']], function() {
+        Route::get('all', 'ConexionController@Clima');
+    });
+});
 
 Route::group(['prefix' => 'TOAPI'], function() {
     Route::post('iniciar', 'APICONTROLLER@iniciarsesion');
@@ -31,6 +56,9 @@ Route::group(['prefix' => 'TOAPI'], function() {
 
 
 //FIN
+Route::get('/',function(){
+    return 'hola';
+});
 
             // POST
 Route::post('iniciar', 'UserController@iniciarsesion');
@@ -40,9 +68,7 @@ Route::post('registrar', 'UserController@registrarse');
 Route::group(['middleware' => ['auth:api']], function() {
     Route::get('cerrar', 'UserController@cerrarsesion');
 });
-
 Route::get('ejemplo', 'UserController@ejemplo');
-
 Route::group(['middleware' => ['auth:api','user']], function() {
     Route::get('all', 'UserController@Allusers');
 });
